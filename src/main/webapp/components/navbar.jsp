@@ -17,8 +17,9 @@
                 <span>Voting Application</span>
             </div>
             <div class="navbar-nav">
-                <a class="nav-link" href="./navigation/aboutPage.jsp">About</a>
-                <a class="nav-link" href="./forms/registrationForm.jsp">Register</a>
+                <a class="nav-link" href="../navigation/aboutPage.jsp" target="content">About</a>
+                <a class="nav-link" href="../forms/registrationForm.jsp" target="content">Register</a>
+                <a class="nav-link" href="../forms/loginForm.jsp" target="content">Login</a>
             </div>
         </nav>
     </body>

@@ -6,6 +6,9 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/CascadeStyleSheet.css
     Created on : Apr 19, 2023, 1:19:38 PM
     Author     : denilson
 */
+body{
+    margin: 0;
+}
 
 .container {
     min-height: 100%;
