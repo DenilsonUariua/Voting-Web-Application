@@ -6,7 +6,31 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/CascadeStyleSheet.css
     Created on : Apr 19, 2023, 2:19:54 PM
     Author     : denilson
 */
+/* Style the tab buttons */
+.tab {
+    display: inline-block;
+    background-color: #ddd;
+    border: 1px solid #ccc;
+    border-radius: 4px 4px 0 0;
+    padding: 10px;
+    cursor: pointer;
+    font-size: 18px;
+    margin-right: 10px;
+}
 
+/* Style the active tab button */
+.active {
+    background-color: #fff;
+    border-bottom: none;
+}
+
+/* Style the tab content */
+.tabcontent {
+    display: none;
+    border: 1px solid #ccc;
+    border-radius: 0 0 4px 4px;
+    padding: 10px;
+}
 body {
     font-family: Arial, sans-serif;
     background-color: #f2f2f2;
