@@ -12,6 +12,8 @@
         <title>About</title>
     </head>
     <body>
+        <iframe src="../components/navbar.jsp" frameborder="0" height="50" style='width: 100%'></iframe>
         <h1>About Page!</h1>
+        <iframe src="../components/footer.jsp" frameborder="0" height="50" style='width: 100%'></iframe>
     </body>
 </html>
