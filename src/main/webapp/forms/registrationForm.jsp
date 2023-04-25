@@ -78,10 +78,10 @@
                 <input type="text" id="id" name="id" required>
                 <label for="political-party">Political Party:</label>
                 <select id="political-party" name="political-party">
-                    <option value="democratic">SWAPO</option>
-                    <option value="republican">NEEF</option>
-                    <option value="green">NUDO</option>
-                    <option value="libertarian">PDM</option>
+                    <option value="SWAPO">SWAPO</option>
+                    <option value="NEEF">NEEF</option>
+                    <option value="NUDO">NUDO</option>
+                    <option value="PDM">PDM</option>
                 </select><br>
 
                 <input type="submit" value="Submit">
