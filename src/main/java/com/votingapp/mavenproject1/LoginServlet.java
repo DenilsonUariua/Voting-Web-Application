@@ -8,7 +8,9 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.servlet.ServletException;
@@ -77,16 +79,28 @@ public class LoginServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        System.out.println("SErdfsafa");
-        String url = "jdbc:postgresql://localhost:5432/my_database";
-        String user = "postgres";
-        String password = "password";
 
         try {
+            Class.forName("org.postgresql.Driver");
+            String url = "jdbc:postgresql://localhost:5432/my_database";
+            String user = "postgres";
+            String password = "password";
             Connection conn = DriverManager.getConnection(url, user, password);
-            System.out.println("Connection successful");
-            System.out.println(conn);
-        } catch (SQLException ex) {
+            System.out.println("Connection successfull");
+            Statement stmt = conn.createStatement();
+            ResultSet rs = stmt.executeQuery("SELECT * FROM users LIMIT 5");
+            while (rs.next()) {
+                String firstName = rs.getString("firstname");
+                String lastName = rs.getString("lastname");
+                int age = rs.getInt("age");
+                int id = rs.getInt("identificationnumber");
+                // do something with the data
+                System.out.println("name: " + firstName + lastName);
+            }
+            rs.close();
+            stmt.close();
+            conn.close();
+        } catch (SQLException | ClassNotFoundException ex) {
 
             Logger.getLogger(LoginServlet.class.getName()).log(Level.SEVERE, null, ex);
         }
