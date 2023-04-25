@@ -8,7 +8,7 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <meta charset="UTF-8">
+        <meta http-equiv="Content-Type" content="text/html" charset="UTF-8">
         <link rel="stylesheet" href="../styles/registrationFormStyles.css">
         <script src="../scripts/registrationScripts.js"></script>
         <title>Voter and Candidate Registration</title>
@@ -50,7 +50,7 @@
 
         <div id="voter" class="tabcontent" style="display: block;">
             <!-- Voter registration form here -->  
-            <form>
+            <form action="/mavenproject1/voterRegistration" method="post">
                 <h1>Voter Registration Form</h1>
                 <label for="firstname">First Name:</label>
                 <input type="text" id="firstname" name="firstname" required>
@@ -66,7 +66,7 @@
 
         <div id="candidate" class="tabcontent">
             <!-- Candidate registration form here -->
-            <form>
+            <form action="/mavenproject1/candidateRegistration" method="post">
                 <h1>Candidate Registration Form</h1>
                 <label for="firstname">First Name:</label>
                 <input type="text" id="firstname" name="firstname" required>
