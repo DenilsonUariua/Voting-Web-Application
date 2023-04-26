@@ -18,8 +18,8 @@
         <div class="container">
             <h1>Login Form</h1>
             <form action="/mavenproject1/login" method="post">
-                <label for="username">Username</label>
-                <input type="text" id="username" name="username" required>
+                <label for="username">Firstname</label>
+                <input type="text" id="firstname" name="firstname" required>
 
                 <label for="password">Password</label>
                 <input type="password" id="password" name="password" required>

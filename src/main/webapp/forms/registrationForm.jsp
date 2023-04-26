@@ -50,7 +50,7 @@
 
         <div id="voter" class="tabcontent" style="display: block;">
             <!-- Voter registration form here -->  
-            <form action="/mavenproject1/voterRegistration" method="post">
+            <form action="/mavenproject1/voterRegistration" method="post" onsubmit="return validateForm()">
                 <h1>Voter Registration Form</h1>
                 <label for="firstname">First Name:</label>
                 <input type="text" id="firstname" name="firstname" required>
@@ -58,12 +58,22 @@
                 <input type="text" id="lastname" name="lastname" required>
                 <label for="age">Age:</label>
                 <input type="number" id="age" name="age" required>
+                <div id="age-error" style="display:none;color:red;">Age must be 18 or older</div>
                 <label for="id">ID:</label>
-                <input type="text" id="id" name="id" required>
+                <input type="number" id="id" name="id" required>
                 <input type="submit" value="Submit">
             </form>
         </div>
-
+        <script>
+            function validateForm() {
+                var age = document.getElementById("age").value;
+                if (age < 18) {
+                    document.getElementById("age-error").style.display = "block";
+                    return false;
+                }
+                return true;
+            }
+        </script>
         <div id="candidate" class="tabcontent">
             <!-- Candidate registration form here -->
             <form action="/mavenproject1/candidateRegistration" method="post">
@@ -75,7 +85,7 @@
                 <label for="age">Age:</label>
                 <input type="number" id="age" name="age" required>
                 <label for="id">ID:</label>
-                <input type="text" id="id" name="id" required>
+                <input type="number" id="id" name="id" required>
                 <label for="political-party">Political Party:</label>
                 <select id="political-party" name="political-party">
                     <option value="SWAPO">SWAPO</option>

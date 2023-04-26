@@ -11,6 +11,11 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
+import javax.servlet.http.HttpSession;
 
 /**
  *
@@ -36,7 +41,7 @@ public class VoterRegistrationServlet extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet VoterRegistrationServlet</title>");            
+            out.println("<title>Servlet VoterRegistrationServlet</title>");
             out.println("</head>");
             out.println("<body>");
             out.println("<h1>Servlet VoterRegistrationServlet at " + request.getContextPath() + "</h1>");
@@ -71,6 +76,46 @@ public class VoterRegistrationServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        HttpSession session = request.getSession();
+
+        String firstname = request.getParameter("firstname");
+        String lastname = request.getParameter("lastname");
+        int age = Integer.parseInt(request.getParameter("age"));
+        String id = request.getParameter("id");
+
+        try {
+            // Load the PostgreSQL JDBC driver
+            Class.forName("org.postgresql.Driver");
+
+            // Connect to the database
+            String url = "jdbc:postgresql://localhost/my_database";
+            String user = "postgres";
+            String password = "password";
+            Connection conn = DriverManager.getConnection(url, user, password);
+
+            // Insert the user information into the "users" table
+            String sql = "INSERT INTO users (firstname, lastname, age, identificationnumber) VALUES (?, ?, ?, ?)";
+            PreparedStatement pstmt = conn.prepareStatement(sql);
+            
+            pstmt.setString(1, firstname);
+            pstmt.setString(2, lastname);
+            pstmt.setInt(3, age);
+            pstmt.setString(4, id);
+            pstmt.executeUpdate();
+            pstmt.close();
+            conn.close();
+            
+            session.setAttribute("firstname", firstname);
+            session.setAttribute("lastname", lastname);
+            session.setAttribute("age", age);
+            session.setAttribute("idNumber", id);
+
+            // Redirect the user to a success page
+            response.sendRedirect("/mavenproject1/homePage.jsp");
+        } catch (ClassNotFoundException | SQLException e) {
+            System.err.println(e);
+            response.sendRedirect("error.html");
+        }
         processRequest(request, response);
     }
 
