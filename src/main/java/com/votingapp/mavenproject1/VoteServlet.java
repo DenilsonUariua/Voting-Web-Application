@@ -11,18 +11,13 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.PreparedStatement;
-import java.sql.SQLException;
-import javax.servlet.http.HttpSession;
 
 /**
  *
  * @author denilson
  */
-@WebServlet(name = "CandidateRegistrationServlet", urlPatterns = {"/candidateRegistration"})
-public class CandidateRegistrationServlet extends HttpServlet {
+@WebServlet(name = "VoteServlet", urlPatterns = {"/processVote"})
+public class VoteServlet extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -41,10 +36,10 @@ public class CandidateRegistrationServlet extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet CandidateRegistrationServlet</title>");
+            out.println("<title>Servlet VoteServlet</title>");            
             out.println("</head>");
             out.println("<body>");
-            out.println("<h1>Servlet CandidateRegistrationServlet at " + request.getContextPath() + "</h1>");
+            out.println("<h1>Servlet VoteServlet at " + request.getContextPath() + "</h1>");
             out.println("</body>");
             out.println("</html>");
         }
@@ -76,56 +71,6 @@ public class CandidateRegistrationServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        HttpSession session = request.getSession();
-        // Get form data from request
-        String firstname = request.getParameter("firstname");
-        String lastname = request.getParameter("lastname");
-        String userPassword = request.getParameter("password");
-        int age = Integer.parseInt(request.getParameter("age"));
-        int id = Integer.parseInt(request.getParameter("id"));
-        String politicalParty = request.getParameter("political-party");
-
-        // Define database connection parameters
-        String url = "jdbc:postgresql://localhost/my_database";
-        String user = "postgres";
-        String password = "password";
-
-        try {
-            // Load the PostgreSQL JDBC driver
-            Class.forName("org.postgresql.Driver");
-            // Open database connection
-            Connection conn = DriverManager.getConnection(url, user, password);
-
-            // Prepare INSERT statement
-            String sql = "INSERT INTO candidates (firstname, lastname, password, age, identificationnumber, political_party) "
-                    + "VALUES (?, ?, ?, ?, ?, ?)";
-            PreparedStatement pstmt = conn.prepareStatement(sql);
-
-            // Set parameters
-            pstmt.setString(1, firstname);
-            pstmt.setString(2, lastname);
-            pstmt.setString(3, userPassword);
-            pstmt.setInt(4, age);
-            pstmt.setInt(5, id);
-            pstmt.setString(6, politicalParty);
-
-            // Execute INSERT statement
-            pstmt.executeUpdate();
-
-            // Close resources
-            pstmt.close();
-            conn.close();
-            session.setAttribute("firstname", firstname);
-            session.setAttribute("lastname", lastname);
-            session.setAttribute("age", age);
-            session.setAttribute("idNumber", id);
-            // Redirect to success page
-           response.sendRedirect("navigation/homePage.jsp");
-
-        } catch (ClassNotFoundException | SQLException e) {
-            System.err.println(e);
-            response.sendRedirect("candidateRegistrationError.html");
-        }
         processRequest(request, response);
     }
 

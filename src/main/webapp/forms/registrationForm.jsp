@@ -56,11 +56,13 @@
                 <input type="text" id="firstname" name="firstname" required>
                 <label for="lastname">Last Name:</label>
                 <input type="text" id="lastname" name="lastname" required>
+                <label for="password">Password</label>
+                <input type="password" id="password" name="password" required>
                 <label for="age">Age:</label>
                 <input type="number" id="age" name="age" required>
                 <div id="age-error" style="display:none;color:red;">Age must be 18 or older</div>
                 <label for="id">ID:</label>
-                <input type="number" id="id" name="id" required>
+                <input type="text" id="id" name="id" required>
                 <input type="submit" value="Submit">
             </form>
         </div>
@@ -82,6 +84,8 @@
                 <input type="text" id="firstname" name="firstname" required>
                 <label for="lastname">Last Name:</label>
                 <input type="text" id="lastname" name="lastname" required>
+                <label for="password">Password</label>
+                <input type="password" id="password" name="password" required>
                 <label for="age">Age:</label>
                 <input type="number" id="age" name="age" required>
                 <label for="id">ID:</label>
@@ -101,3 +105,4 @@
         <iframe src="../components/footer.jsp" frameborder="0" height="50" style='width: 100%'></iframe>
     </body>
 </html>
+

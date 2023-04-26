@@ -8,9 +8,9 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.servlet.ServletException;
@@ -18,6 +18,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 /**
  *
@@ -79,34 +80,63 @@ public class LoginServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        String firstname = request.getParameter("firstname");
+        String userPassword = request.getParameter("password");
+
+        // Check if the provided credentials are valid (for example, by querying a database)
+        if (isValidCredentials(firstname, userPassword, request)) {
+
+            response.sendRedirect("navigation/homePage.jsp");
+        } else {
+            request.setAttribute("errorMessage", "Invalid login credentials");
+//            request.getRequestDispatcher("forms/loginForm.jsp").forward(request, response);
+            response.sendRedirect("forms/loginForm.jsp");
+        }
+
+        processRequest(request, response);
+    }
+
+    private boolean isValidCredentials(String firstname, String userPassword, HttpServletRequest request) {
 
         try {
+            HttpSession session = request.getSession();
+
             Class.forName("org.postgresql.Driver");
             String url = "jdbc:postgresql://localhost:5432/my_database";
             String user = "postgres";
             String password = "password";
             Connection conn = DriverManager.getConnection(url, user, password);
-            System.out.println("Connection successfull");
-            Statement stmt = conn.createStatement();
-            ResultSet rs = stmt.executeQuery("SELECT * FROM users LIMIT 5");
-            while (rs.next()) {
-                String firstName = rs.getString("firstname");
-                String lastName = rs.getString("lastname");
-                int age = rs.getInt("age");
-                int id = rs.getInt("identificationnumber");
-                // do something with the data
-                System.out.println("name: " + firstName +" "+ lastName);
-                System.out.println("age: " + age);
-                System.out.println("identificationnumber: " + id);
-            }
-            rs.close();
-            stmt.close();
-            conn.close();
-        } catch (SQLException | ClassNotFoundException ex) {
+            String sql = "SELECT password FROM voters WHERE firstname = ? AND password = ?";
+            PreparedStatement pstmt = conn.prepareStatement(sql);
+            pstmt.setString(1, firstname);
+            pstmt.setString(2, userPassword);
 
+            ResultSet rs = pstmt.executeQuery();
+//            System.out.println("Result" + rs.next());
+            if (rs.next()) {
+                session.setAttribute("firstname", rs.getString("firstname"));
+                session.setAttribute("lastname", rs.getString("firstname"));
+                session.setAttribute("age", rs.getString("firstname"));
+                session.setAttribute("idNumber", rs.getString("id_number"));
+                
+                System.out.println("Passwords match, login successful");
+                rs.close();
+                pstmt.close();
+                conn.close();
+                return true; // Passwords match, login successful
+            } else {
+                // No candidate with the given firstname found, login failed
+                System.out.println("Invalid login credentials, login failed");
+                rs.close();
+                pstmt.close();
+                conn.close();
+                return false;
+            }
+
+        } catch (SQLException | ClassNotFoundException ex) {
             Logger.getLogger(LoginServlet.class.getName()).log(Level.SEVERE, null, ex);
+            return false;
         }
-        processRequest(request, response);
     }
 
     /**

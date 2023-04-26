@@ -80,8 +80,9 @@ public class VoterRegistrationServlet extends HttpServlet {
 
         String firstname = request.getParameter("firstname");
         String lastname = request.getParameter("lastname");
+        String userPassword = request.getParameter("password");
         int age = Integer.parseInt(request.getParameter("age"));
-        String id = request.getParameter("id");
+        int id = Integer.parseInt(request.getParameter("id"));
 
         try {
             // Load the PostgreSQL JDBC driver
@@ -94,24 +95,26 @@ public class VoterRegistrationServlet extends HttpServlet {
             Connection conn = DriverManager.getConnection(url, user, password);
 
             // Insert the user information into the "users" table
-            String sql = "INSERT INTO users (firstname, lastname, age, identificationnumber) VALUES (?, ?, ?, ?)";
+            String sql = "INSERT INTO voters (firstname, lastname, password, age, id_number) VALUES (?, ?, ?, ?, ?)";
             PreparedStatement pstmt = conn.prepareStatement(sql);
-            
+
             pstmt.setString(1, firstname);
             pstmt.setString(2, lastname);
-            pstmt.setInt(3, age);
-            pstmt.setString(4, id);
+            pstmt.setString(3, userPassword);
+            pstmt.setInt(4, age);
+            pstmt.setInt(5, id);
             pstmt.executeUpdate();
             pstmt.close();
             conn.close();
             
+            //Set session variables
             session.setAttribute("firstname", firstname);
             session.setAttribute("lastname", lastname);
             session.setAttribute("age", age);
             session.setAttribute("idNumber", id);
 
             // Redirect the user to a success page
-            response.sendRedirect("/mavenproject1/homePage.jsp");
+            response.sendRedirect("navigation/homePage.jsp");
         } catch (ClassNotFoundException | SQLException e) {
             System.err.println(e);
             response.sendRedirect("error.html");
