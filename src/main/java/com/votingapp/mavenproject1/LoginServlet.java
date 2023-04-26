@@ -95,7 +95,9 @@ public class LoginServlet extends HttpServlet {
                 int age = rs.getInt("age");
                 int id = rs.getInt("identificationnumber");
                 // do something with the data
-                System.out.println("name: " + firstName + lastName);
+                System.out.println("name: " + firstName +" "+ lastName);
+                System.out.println("age: " + age);
+                System.out.println("identificationnumber: " + id);
             }
             rs.close();
             stmt.close();
