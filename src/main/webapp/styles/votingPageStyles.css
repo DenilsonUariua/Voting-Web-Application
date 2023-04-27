@@ -1,0 +1,60 @@
+/*
+Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/CascadeStyleSheet.css to edit this template
+*/
+/* 
+    Created on : Apr 27, 2023, 4:18:02 PM
+    Author     : denilson
+*/
+
+.card {
+    width: 300px;
+    margin: 20px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    box-shadow: 0px 2px 2px #ccc;
+    transition: all 0.3s ease-in-out;
+}
+.card:hover {
+    box-shadow: 0px 4px 4px #ccc;
+    transform: translateY(-5px);
+}
+.card-header {
+    font-size: 18px;
+    font-weight: bold;
+    background-color: #f0f0f0;
+    padding: 10px;
+    border-bottom: 1px solid #ccc;
+}
+.card-body {
+    padding: 10px;
+    text-align: center;
+}
+.card-body img {
+    max-width: 100%;
+    height: auto;
+    margin-bottom: 10px;
+}
+.card-footer {
+    padding: 10px;
+    text-align: right;
+    border-top: 1px solid #ccc;
+}
+.btn {
+    background-color: #000000;
+    color: #fff;
+    border: none;
+    border-radius: 3px;
+    padding: 10px 20px;
+    cursor: pointer;
+}
+.btn:hover {
+    background-color: #3e4347;
+}
+
+.voting-cards-container{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 4rem;
+}

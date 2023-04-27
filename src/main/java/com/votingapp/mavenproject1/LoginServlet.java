@@ -106,19 +106,18 @@ public class LoginServlet extends HttpServlet {
             String user = "postgres";
             String password = "password";
             Connection conn = DriverManager.getConnection(url, user, password);
-            String sql = "SELECT password FROM voters WHERE firstname = ? AND password = ?";
+            String sql = "SELECT firstname, lastname, age, id_number FROM voters WHERE firstname = ? AND password = ?";
             PreparedStatement pstmt = conn.prepareStatement(sql);
             pstmt.setString(1, firstname);
             pstmt.setString(2, userPassword);
 
             ResultSet rs = pstmt.executeQuery();
-//            System.out.println("Result" + rs.next());
             if (rs.next()) {
                 session.setAttribute("firstname", rs.getString("firstname"));
-                session.setAttribute("lastname", rs.getString("firstname"));
-                session.setAttribute("age", rs.getString("firstname"));
+                session.setAttribute("lastname", rs.getString("lastname"));
+                session.setAttribute("age", rs.getString("age"));
                 session.setAttribute("idNumber", rs.getString("id_number"));
-                
+
                 System.out.println("Passwords match, login successful");
                 rs.close();
                 pstmt.close();
