@@ -95,8 +95,14 @@ CREATE TABLE votes (
 1. username
 2. password
 ###### query
-CREATE TABLE administrators (
+1. CREATE TABLE administrators (
     id SERIAL PRIMARY KEY,
     username VARCHAR(150) NOT NULL,
     password VARCHAR(150) NOT NULL
 );
+2. INSERT INTO administrators (username, password) VALUES 
+('admin1', 'password1'),
+('admin2', 'password2'),
+('admin3', 'password3');
+
+
