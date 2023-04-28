@@ -12,14 +12,13 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import javax.servlet.http.HttpSession;
 
 /**
  *
- * @author denilson
+ * @author 
  */
 @WebServlet(name = "CandidateRegistrationServlet", urlPatterns = {"/candidateRegistration"})
 public class CandidateRegistrationServlet extends HttpServlet {
@@ -109,16 +108,12 @@ public class CandidateRegistrationServlet extends HttpServlet {
             // Close resources
             pstmt.close();
             conn.close();
-            session.setAttribute("firstname", firstname);
-            session.setAttribute("lastname", lastname);
-            session.setAttribute("age", age);
-            session.setAttribute("idNumber", id);
             // Redirect to success page
-            response.sendRedirect("navigation/homePage.jsp");
+            response.sendRedirect("components/candidateSuccess.jsp");
 
         } catch (SQLException e) {
             System.err.println(e);
-            response.sendRedirect("candidateRegistrationError.html");
+            response.sendRedirect("forms/registrationForm.jsp");
         }
         processRequest(request, response);
     }

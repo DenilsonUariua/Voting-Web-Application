@@ -1,7 +1,7 @@
 <%-- 
     Document   : logout
     Created on : Apr 26, 2023, 9:00:00 AM
-    Author     : denilson
+    Author     : 
 --%>
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>

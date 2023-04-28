@@ -6,7 +6,7 @@ package com.votingapp.mavenproject1;
 
 /**
  *
- * @author denilson
+ * @author 
  */
 import java.sql.*;
 

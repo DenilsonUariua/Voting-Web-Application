@@ -1,5 +1,5 @@
 <%-- 
-    Document   : votingSuccess
+    Document   : candidateSuccess
     Created on : Apr 28, 2023, 9:32:59 AM
     Author     : 
 --%>
@@ -26,7 +26,7 @@
     <body>
         <iframe src="../components/navbar.jsp" frameborder="0" height="50" style='width: 100%'></iframe>
 
-        <h1>Voting Successful</h1>
+        <h1>You Have Been Registered As A Candidate In The Election</h1>
 
         <iframe src="../components/footer.jsp" frameborder="0" height="50" style='width: 100%'></iframe>
 

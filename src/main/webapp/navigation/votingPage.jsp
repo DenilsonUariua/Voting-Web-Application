@@ -1,7 +1,7 @@
 <%-- 
     Document   : votingPage
     Created on : Apr 26, 2023, 11:07:44 AM
-    Author     : denilson
+    Author     : 
 --%>
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>

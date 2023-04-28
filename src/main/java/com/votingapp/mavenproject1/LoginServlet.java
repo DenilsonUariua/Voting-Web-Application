@@ -7,7 +7,6 @@ package com.votingapp.mavenproject1;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -22,7 +21,7 @@ import javax.servlet.http.HttpSession;
 
 /**
  *
- * @author denilson
+ * @author 
  */
 @WebServlet(name = "LoginServlet", urlPatterns = {"/login"})
 public class LoginServlet extends HttpServlet {
@@ -89,8 +88,7 @@ public class LoginServlet extends HttpServlet {
             response.sendRedirect("navigation/homePage.jsp");
         } else {
             request.setAttribute("errorMessage", "Invalid login credentials");
-//            request.getRequestDispatcher("forms/loginForm.jsp").forward(request, response);
-            response.sendRedirect("forms/loginForm.jsp");
+            response.sendRedirect("forms/loginForm.jsp?error=1");
         }
     }
 
@@ -101,7 +99,7 @@ public class LoginServlet extends HttpServlet {
 
             // Establish a connection to the PostgreSQL database
             Connection conn = DBConnection.getConnection();
-            
+
             String sql = "SELECT firstname, lastname, age, id_number, voted FROM voters WHERE firstname = ? AND password = ?";
             PreparedStatement pstmt = conn.prepareStatement(sql);
             pstmt.setString(1, firstname);

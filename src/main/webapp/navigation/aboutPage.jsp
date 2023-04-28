@@ -1,7 +1,7 @@
 <%-- 
     Document   : aboutPage
     Created on : Apr 19, 2023, 12:20:55 PM
-    Author     : denilson
+    Author     : 
 --%>
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
