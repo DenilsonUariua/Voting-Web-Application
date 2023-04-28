@@ -92,8 +92,6 @@ public class LoginServlet extends HttpServlet {
 //            request.getRequestDispatcher("forms/loginForm.jsp").forward(request, response);
             response.sendRedirect("forms/loginForm.jsp");
         }
-
-        processRequest(request, response);
     }
 
     private boolean isValidCredentials(String firstname, String userPassword, HttpServletRequest request) {
@@ -101,12 +99,10 @@ public class LoginServlet extends HttpServlet {
         try {
             HttpSession session = request.getSession();
 
-            Class.forName("org.postgresql.Driver");
-            String url = "jdbc:postgresql://localhost:5432/my_database";
-            String user = "postgres";
-            String password = "password";
-            Connection conn = DriverManager.getConnection(url, user, password);
-            String sql = "SELECT firstname, lastname, age, id_number FROM voters WHERE firstname = ? AND password = ?";
+            // Establish a connection to the PostgreSQL database
+            Connection conn = DBConnection.getConnection();
+            
+            String sql = "SELECT firstname, lastname, age, id_number, voted FROM voters WHERE firstname = ? AND password = ?";
             PreparedStatement pstmt = conn.prepareStatement(sql);
             pstmt.setString(1, firstname);
             pstmt.setString(2, userPassword);
@@ -117,6 +113,7 @@ public class LoginServlet extends HttpServlet {
                 session.setAttribute("lastname", rs.getString("lastname"));
                 session.setAttribute("age", rs.getString("age"));
                 session.setAttribute("idNumber", rs.getString("id_number"));
+                session.setAttribute("voted", rs.getBoolean("voted"));
 
                 System.out.println("Passwords match, login successful");
                 rs.close();
@@ -132,7 +129,7 @@ public class LoginServlet extends HttpServlet {
                 return false;
             }
 
-        } catch (SQLException | ClassNotFoundException ex) {
+        } catch (SQLException ex) {
             Logger.getLogger(LoginServlet.class.getName()).log(Level.SEVERE, null, ex);
             return false;
         }

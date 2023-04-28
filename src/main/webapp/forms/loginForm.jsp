@@ -11,10 +11,11 @@
         <meta charset="UTF-8">
         <link rel="stylesheet" href="../styles/loginFormStyles.css">
         <title>Login</title>
+
     </head>
     <body>
         <iframe src="../components/navbar.jsp" frameborder="0" height="50" style='width: 100%'></iframe>
-        
+
         <div class="container">
             <h1>Login Form</h1>
             <form action="/mavenproject1/login" method="post">
@@ -26,6 +27,7 @@
 
                 <input type="submit" value="Login">
             </form>
+            <a class="admin-link"href="./adminLoginForm.jsp">Login as administrator</a>
         </div>
 
         <iframe src="../components/footer.jsp" frameborder="0" height="50" style='width: 100%'></iframe>

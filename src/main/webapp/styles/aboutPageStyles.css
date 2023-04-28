@@ -6,6 +6,9 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/CascadeStyleSheet.css
     Created on : Apr 27, 2023, 4:38:01 PM
     Author     : denilson
 */
+body{
+    margin: 0;
+}
 
 h1 {
     font-size: 36px;

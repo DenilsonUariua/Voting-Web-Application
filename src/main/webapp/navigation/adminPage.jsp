@@ -1,6 +1,6 @@
 <%-- 
-    Document   : VotingForm
-    Created on : Apr 19, 2023, 12:23:55 PM
+    Document   : adminPage
+    Created on : Apr 28, 2023, 11:15:55 AM
     Author     : denilson
 --%>
 
@@ -9,10 +9,9 @@
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>Vote</title>
+        <title>JSP Page</title>
     </head>
     <body>
-        <h1>Voting Page!</h1>
-        <a src="./navigation/aboutPage.jsp">About</a>
+        <h1>Hello World!</h1>
     </body>
 </html>

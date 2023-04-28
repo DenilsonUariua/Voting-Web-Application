@@ -6,11 +6,18 @@ package com.votingapp.mavenproject1;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 /**
  *
@@ -36,7 +43,7 @@ public class VoteServlet extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet VoteServlet</title>");            
+            out.println("<title>Servlet VoteServlet</title>");
             out.println("</head>");
             out.println("<body>");
             out.println("<h1>Servlet VoteServlet at " + request.getContextPath() + "</h1>");
@@ -71,7 +78,53 @@ public class VoteServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        // Retrieve candidate ID and voter ID from the form data
+        int candidateId = Integer.parseInt(request.getParameter("candidateId"));
+        int voterId = Integer.parseInt(request.getParameter("voterId"));
+
+        // Establish a connection to the PostgreSQL database
+        Connection conn = DBConnection.getConnection();
+        
+        HttpSession session = request.getSession();
+        try {
+            // Insert the vote into the "votes" table
+            String insertSql = "INSERT INTO votes (candidate_id, voter_id) VALUES (?, ?)";
+            try (PreparedStatement insertStmt = conn.prepareStatement(insertSql)) {
+                insertStmt.setInt(1, candidateId);
+                insertStmt.setInt(2, voterId);
+                int rowsAffected = insertStmt.executeUpdate();
+                // Update the "votes" column in the "candidates" table
+                if (rowsAffected == 1) {
+                    String updateSql = "UPDATE candidates SET votes = votes + 1 WHERE id = ?";
+
+                    PreparedStatement updateStmt = conn.prepareStatement(updateSql);
+                    updateStmt.setInt(1, candidateId);
+                    updateStmt.executeUpdate();
+
+                    String votedSql = "UPDATE voters SET voted = true WHERE id_number = ?";
+                    PreparedStatement votedStmt = conn.prepareStatement(votedSql);
+                    votedStmt.setInt(1, voterId);
+                    votedStmt.executeUpdate();
+                    session.setAttribute("voted", true);
+                }   // Send a response back to the client
+                response.setContentType("text/html");
+                PrintWriter out = response.getWriter();
+                out.println("<html><body>");
+                if (rowsAffected == 1) {
+                    response.sendRedirect("components/votingSuccess.jsp");
+                    out.println("<p>Vote submitted successfully.</p>");
+                } else {
+                    out.println("<p>Error submitting vote.</p>");
+                }
+                out.println("</body></html>");
+                // Close the database connection and resources
+            }
+            conn.close();
+        } catch (SQLException e) {
+            Logger.getLogger(LoginServlet.class.getName()).log(Level.SEVERE, null, e);
+            System.out.println("Voting failed " + e);
+        }
+
     }
 
     /**

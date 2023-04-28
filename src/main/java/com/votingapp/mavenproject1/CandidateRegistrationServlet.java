@@ -85,16 +85,10 @@ public class CandidateRegistrationServlet extends HttpServlet {
         int id = Integer.parseInt(request.getParameter("id"));
         String politicalParty = request.getParameter("political-party");
 
-        // Define database connection parameters
-        String url = "jdbc:postgresql://localhost/my_database";
-        String user = "postgres";
-        String password = "password";
+        // Establish a connection to the PostgreSQL database
+        Connection conn = DBConnection.getConnection();
 
         try {
-            // Load the PostgreSQL JDBC driver
-            Class.forName("org.postgresql.Driver");
-            // Open database connection
-            Connection conn = DriverManager.getConnection(url, user, password);
 
             // Prepare INSERT statement
             String sql = "INSERT INTO candidates (firstname, lastname, password, age, identificationnumber, political_party) "
@@ -120,9 +114,9 @@ public class CandidateRegistrationServlet extends HttpServlet {
             session.setAttribute("age", age);
             session.setAttribute("idNumber", id);
             // Redirect to success page
-           response.sendRedirect("navigation/homePage.jsp");
+            response.sendRedirect("navigation/homePage.jsp");
 
-        } catch (ClassNotFoundException | SQLException e) {
+        } catch (SQLException e) {
             System.err.println(e);
             response.sendRedirect("candidateRegistrationError.html");
         }

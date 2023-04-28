@@ -66,3 +66,11 @@ input[type="submit"]:hover {
 .container{
 
 }
+.admin-link{
+    margin-top: 2rem;
+    text-decoration: none;
+    color: black;
+}
+.admin-link:hover{
+    color: red;
+}

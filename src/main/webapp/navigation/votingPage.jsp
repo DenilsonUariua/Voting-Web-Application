@@ -12,17 +12,19 @@
         <link rel="stylesheet" href="../styles/votingPageStyles.css">
         <title>Vote</title>
     </head>
+    <style>
+        body {
+            margin: 0;
+        }
+    </style>
     <body>
         <iframe src="../components/navbar.jsp" frameborder="0" height="50" style='width: 100%'></iframe>
-            <%@ page import="java.sql.*" %>
+            <%@ page import="java.sql.*" 
+                     import= "com.votingapp.mavenproject1.*"%>
         <div class="voting-cards-container">
             <%
-                Class.forName("org.postgresql.Driver");
                 // Establish a connection to the PostgreSQL database
-                String url = "jdbc:postgresql://localhost:5432/my_database";
-                String user = "postgres";
-                String password = "password";
-                Connection conn = DriverManager.getConnection(url, user, password);
+                Connection conn = DBConnection.getConnection();
 
                 // Retrieve candidate data from the database
                 String sql = "SELECT * FROM candidates";
@@ -44,9 +46,15 @@
                 <div class="card-footer">
                     <form method="post" action="/mavenproject1/processVote">
                         <input type="hidden" name="candidateId" value="<%= id%>">
-                        <input type="hidden" name="voterId" value="<%= session.getAttribute("id_number")%>">
+                        <input type="hidden" name="voterId" value="<%= session.getAttribute("idNumber")%>">
+                        <% if ((Boolean) session.getAttribute("voted")) {%>
+                        <p>You Already Voted!!!</p>
+                        <% } else { %>
                         <button type="submit" class="btn btn-primary">Vote</button>
+                        <% }%>
                     </form>
+
+
                 </div>
             </div>
             <%

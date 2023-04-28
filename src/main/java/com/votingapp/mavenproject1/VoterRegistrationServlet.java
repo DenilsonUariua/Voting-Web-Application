@@ -83,28 +83,21 @@ public class VoterRegistrationServlet extends HttpServlet {
         String userPassword = request.getParameter("password");
         int age = Integer.parseInt(request.getParameter("age"));
         int id = Integer.parseInt(request.getParameter("id"));
+        
+        // Establish a connection to the PostgreSQL database
+        Connection conn = DBConnection.getConnection();
 
         try {
-            // Load the PostgreSQL JDBC driver
-            Class.forName("org.postgresql.Driver");
-
-            // Connect to the database
-            String url = "jdbc:postgresql://localhost/my_database";
-            String user = "postgres";
-            String password = "password";
-            Connection conn = DriverManager.getConnection(url, user, password);
-
             // Insert the user information into the "users" table
             String sql = "INSERT INTO voters (firstname, lastname, password, age, id_number) VALUES (?, ?, ?, ?, ?)";
-            PreparedStatement pstmt = conn.prepareStatement(sql);
-
-            pstmt.setString(1, firstname);
-            pstmt.setString(2, lastname);
-            pstmt.setString(3, userPassword);
-            pstmt.setInt(4, age);
-            pstmt.setInt(5, id);
-            pstmt.executeUpdate();
-            pstmt.close();
+            try (PreparedStatement pstmt = conn.prepareStatement(sql)) {
+                pstmt.setString(1, firstname);
+                pstmt.setString(2, lastname);
+                pstmt.setString(3, userPassword);
+                pstmt.setInt(4, age);
+                pstmt.setInt(5, id);
+                pstmt.executeUpdate();
+            }
             conn.close();
             
             //Set session variables
@@ -115,7 +108,7 @@ public class VoterRegistrationServlet extends HttpServlet {
 
             // Redirect the user to a success page
             response.sendRedirect("navigation/homePage.jsp");
-        } catch (ClassNotFoundException | SQLException e) {
+        } catch (SQLException e) {
             System.err.println(e);
             response.sendRedirect("error.html");
         }
