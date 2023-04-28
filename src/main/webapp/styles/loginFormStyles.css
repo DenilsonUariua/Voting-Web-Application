@@ -67,9 +67,10 @@ input[type="submit"]:hover {
 
 }
 .admin-link{
-    margin-top: 2rem;
+    margin-top: 1rem;
+    align-self: end;
     text-decoration: none;
-    color: black;
+    color: #f3ae04;
 }
 .admin-link:hover{
     color: red;
