@@ -1,7 +1,7 @@
 <%-- 
     Document   : footer
     Created on : Apr 19, 2023, 1:15:45 PM
-    Author     : denilson
+    Author     : 
 --%>
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>

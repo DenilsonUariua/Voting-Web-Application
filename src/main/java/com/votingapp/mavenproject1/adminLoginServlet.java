@@ -6,22 +6,23 @@ package com.votingapp.mavenproject1;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.SQLException;
 import javax.servlet.http.HttpSession;
 
 /**
  *
- * @author denilson
+ * @author 
  */
-@WebServlet(name = "VoterRegistrationServlet", urlPatterns = {"/voterRegistration"})
-public class VoterRegistrationServlet extends HttpServlet {
+@WebServlet(name = "adminLoginServlet", urlPatterns = {"/adminLogin"})
+public class adminLoginServlet extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -40,10 +41,10 @@ public class VoterRegistrationServlet extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet VoterRegistrationServlet</title>");
+            out.println("<title>Servlet adminLoginServlet</title>");
             out.println("</head>");
             out.println("<body>");
-            out.println("<h1>Servlet VoterRegistrationServlet at " + request.getContextPath() + "</h1>");
+            out.println("<h1>Servlet adminLoginServlet at " + request.getContextPath() + "</h1>");
             out.println("</body>");
             out.println("</html>");
         }
@@ -75,41 +76,53 @@ public class VoterRegistrationServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        // Get the username and password from the request parameters
+        String username = request.getParameter("username");
+        String password = request.getParameter("password");
         HttpSession session = request.getSession();
-
-        String firstname = request.getParameter("firstname");
-        String lastname = request.getParameter("lastname");
-        String userPassword = request.getParameter("password");
-        int age = Integer.parseInt(request.getParameter("age"));
-        int id = Integer.parseInt(request.getParameter("id"));
-        
         // Establish a connection to the PostgreSQL database
         Connection conn = DBConnection.getConnection();
 
-        try {
-            // Insert the user information into the "users" table
-            String sql = "INSERT INTO voters (firstname, lastname, password, age, id_number) VALUES (?, ?, ?, ?, ?)";
-            try (PreparedStatement pstmt = conn.prepareStatement(sql)) {
-                pstmt.setString(1, firstname);
-                pstmt.setString(2, lastname);
-                pstmt.setString(3, userPassword);
-                pstmt.setInt(4, age);
-                pstmt.setInt(5, id);
-                pstmt.executeUpdate();
-            }
-            conn.close();
-            
-            //Set session variables
-            session.setAttribute("firstname", firstname);
-            session.setAttribute("lastname", lastname);
-            session.setAttribute("age", age);
-            session.setAttribute("idNumber", id);
+        PreparedStatement stmt = null;
+        ResultSet rs = null;
+        boolean isAdmin = false;
 
-            // Redirect the user to a success page
-            response.sendRedirect("navigation/homePage.jsp");
+        try {
+            // Check if the user is an administrator
+            String sql = "SELECT * FROM administrators WHERE username = ? AND password = ?";
+            stmt = conn.prepareStatement(sql);
+            stmt.setString(1, username);
+            stmt.setString(2, password);
+            rs = stmt.executeQuery();
+
+            if (rs.next()) {
+                isAdmin = true;
+            }
+
         } catch (SQLException e) {
-            System.err.println(e);
-            response.sendRedirect("error.html");
+            // Handle errors
+        } finally {
+            try {
+                if (rs != null) {
+                    rs.close();
+                }
+                if (stmt != null) {
+                    stmt.close();
+                }
+                if (conn != null) {
+                    conn.close();
+                }
+            } catch (SQLException e) {
+                // Handle errors
+            }
+        }
+
+        // Redirect to the appropriate page based on the result
+        if (isAdmin) {
+            session.setAttribute("username", username);
+            response.sendRedirect("navigation/adminPage.jsp");
+        } else {
+            response.sendRedirect("forms/adminLoginForm.jsp?error=1");
         }
         processRequest(request, response);
     }

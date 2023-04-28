@@ -4,7 +4,7 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/CascadeStyleSheet.css
 */
 /* 
     Created on : Apr 19, 2023, 2:40:50 PM
-    Author     : denilson
+    Author     : 
 */
 
 body {
@@ -12,7 +12,15 @@ body {
     background-color: #f7f7f7;
     margin: 0;
 }
-
+.admin-link{
+    margin-top: 1rem;
+    align-self: end;
+    text-decoration: none;
+    color: #f3ae04;
+}
+.admin-link:hover{
+    color: red;
+}
 .container {
     display: flex;
     align-items: center;
@@ -64,5 +72,5 @@ input[type="submit"]:hover {
     background-color: #0062cc;
 }
 .container{
-
+    margin: 1rem;
 }

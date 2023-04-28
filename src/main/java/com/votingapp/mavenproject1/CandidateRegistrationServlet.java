@@ -12,14 +12,13 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import javax.servlet.http.HttpSession;
 
 /**
  *
- * @author denilson
+ * @author 
  */
 @WebServlet(name = "CandidateRegistrationServlet", urlPatterns = {"/candidateRegistration"})
 public class CandidateRegistrationServlet extends HttpServlet {
@@ -80,32 +79,28 @@ public class CandidateRegistrationServlet extends HttpServlet {
         // Get form data from request
         String firstname = request.getParameter("firstname");
         String lastname = request.getParameter("lastname");
+        String userPassword = request.getParameter("password");
         int age = Integer.parseInt(request.getParameter("age"));
-        String id = request.getParameter("id");
+        int id = Integer.parseInt(request.getParameter("id"));
         String politicalParty = request.getParameter("political-party");
 
-        // Define database connection parameters
-        String url = "jdbc:postgresql://localhost/my_database";
-        String user = "postgres";
-        String password = "password";
+        // Establish a connection to the PostgreSQL database
+        Connection conn = DBConnection.getConnection();
 
         try {
-            // Load the PostgreSQL JDBC driver
-            Class.forName("org.postgresql.Driver");
-            // Open database connection
-            Connection conn = DriverManager.getConnection(url, user, password);
 
             // Prepare INSERT statement
-            String sql = "INSERT INTO candidates (firstname, lastname, age, identificationnumber, politicalparty) "
-                    + "VALUES (?, ?, ?, ?, ?)";
+            String sql = "INSERT INTO candidates (firstname, lastname, password, age, identificationnumber, political_party) "
+                    + "VALUES (?, ?, ?, ?, ?, ?)";
             PreparedStatement pstmt = conn.prepareStatement(sql);
 
             // Set parameters
             pstmt.setString(1, firstname);
             pstmt.setString(2, lastname);
-            pstmt.setInt(3, age);
-            pstmt.setString(4, id);
-            pstmt.setString(5, politicalParty);
+            pstmt.setString(3, userPassword);
+            pstmt.setInt(4, age);
+            pstmt.setInt(5, id);
+            pstmt.setString(6, politicalParty);
 
             // Execute INSERT statement
             pstmt.executeUpdate();
@@ -113,16 +108,12 @@ public class CandidateRegistrationServlet extends HttpServlet {
             // Close resources
             pstmt.close();
             conn.close();
-            session.setAttribute("firstname", firstname);
-            session.setAttribute("lastname", lastname);
-            session.setAttribute("age", age);
-            session.setAttribute("idNumber", id);
             // Redirect to success page
-            response.sendRedirect("candidateRegistrationSuccess.html");
+            response.sendRedirect("components/candidateSuccess.jsp");
 
-        } catch (ClassNotFoundException | SQLException e) {
+        } catch (SQLException e) {
             System.err.println(e);
-            response.sendRedirect("candidateRegistrationError.html");
+            response.sendRedirect("forms/registrationForm.jsp");
         }
         processRequest(request, response);
     }
