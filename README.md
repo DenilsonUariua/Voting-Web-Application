@@ -103,5 +103,4 @@ CREATE TABLE votes (
 2. INSERT INTO administrators (username, password) VALUES 
 ('admin1', 'password1'),
 ('admin2', 'password2'),
-('admin3', 'password3');
-
+('admin3', 'password3'),
