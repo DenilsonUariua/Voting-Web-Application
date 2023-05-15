@@ -4,12 +4,43 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/CascadeStyleSheet.css
 */
 /* 
     Created on : Apr 19, 2023, 1:19:38 PM
-    Author     : denilson
+    Author     : 
 */
+body{
+    margin: 0;
+}
 
 .container {
     min-height: 100%;
     position: relative;
     box-sizing: border-box;
     padding-bottom: 60px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+/* Target the h1 heading */
+h1 {
+    font-size: 3rem; /* Adjust the font size to your preference */
+    font-weight: bold;
+    text-align: center; /* Center the heading text */
+    margin-top: 50px; /* Add some space between the navbar and the heading */
+}
+
+/* Target the p tag */
+p {
+    font-size: 1.2rem; /* Adjust the font size to your preference */
+    line-height: 1.5; /* Increase the line-height for readability */
+    text-align: center; /* Center the paragraph text */
+    margin-top: 20px; /* Add some space between the heading and the paragraph */
+}
+
+img{
+    margin: 2rem;
+    align-self: center;
+    height: 500px;
+    width: 90%;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.4); /* Add a subtle drop shadow */
+    border-radius: 5px;
+    object-fit: cover;
 }
